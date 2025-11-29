@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ColorPalette, palettes, type PaletteType } from "@/components/ColorPalette";
+import { MusicControls } from "@/components/MusicControls";
 
 type BreathPhase = "ready" | "inhale" | "hold-in" | "exhale" | "hold-out";
 
@@ -168,6 +169,9 @@ const Index = () => {
           Follow the expanding and contracting circle to guide your breathing rhythm
         </motion.p>
       </div>
+
+      {/* Music Controls */}
+      <MusicControls isBreathingActive={isActive} />
     </main>
   );
 };
