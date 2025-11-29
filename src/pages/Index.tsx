@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ColorPalette, palettes, type PaletteType } from "@/components/ColorPalette";
 
 type BreathPhase = "ready" | "inhale" | "hold-in" | "exhale" | "hold-out";
 
 const Index = () => {
   const [isActive, setIsActive] = useState(false);
   const [phase, setPhase] = useState<BreathPhase>("ready");
+  const [selectedPalette, setSelectedPalette] = useState<PaletteType>("teal");
+  
+  const currentPalette = palettes[selectedPalette];
 
   const phaseConfig = {
     ready: { duration: 0, label: "Press Start", scale: 1 },
@@ -48,9 +52,15 @@ const Index = () => {
   };
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-gradient-calm flex items-center justify-center">
+    <main 
+      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center transition-all duration-1000"
+      style={{ background: currentPalette.gradient }}
+    >
       {/* Ambient glow background */}
-      <div className="absolute inset-0 bg-gradient-glow opacity-60 animate-pulse" />
+      <div 
+        className="absolute inset-0 opacity-60 animate-pulse"
+        style={{ background: currentPalette.glow }}
+      />
       
       <div className="relative z-10 flex flex-col items-center justify-center gap-12 px-4">
         {/* App Title */}
@@ -97,7 +107,8 @@ const Index = () => {
               duration: phaseConfig[phase].duration / 1000,
               ease: "easeInOut",
             }}
-            className="relative w-48 h-48 md:w-60 md:h-60 rounded-full bg-white/20 backdrop-blur-md shadow-breath flex items-center justify-center"
+            className="relative w-48 h-48 md:w-60 md:h-60 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center"
+            style={{ boxShadow: currentPalette.shadow }}
           >
             {/* Inner highlight */}
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-white/30 to-transparent" />
@@ -143,6 +154,9 @@ const Index = () => {
             </Button>
           )}
         </motion.div>
+
+        {/* Color Palette Selector */}
+        <ColorPalette selected={selectedPalette} onSelect={setSelectedPalette} />
 
         {/* Instruction text */}
         <motion.p
