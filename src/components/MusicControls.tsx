@@ -62,7 +62,7 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="fixed top-8 right-8 flex flex-col items-end gap-3"
+        className="fixed top-6 right-6 md:top-8 md:right-8 flex flex-col items-end gap-3 z-50"
       >
         {/* Volume Slider */}
         <AnimatePresence>
@@ -71,7 +71,7 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
               initial={{ opacity: 0, y: 10, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              className="flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-4 py-3 border border-white/20"
+              className="flex items-center gap-2 md:gap-3 bg-white/10 backdrop-blur-md rounded-full px-3 md:px-4 py-2 md:py-3 border border-white/20"
             >
               <Button
                 variant="ghost"
@@ -90,9 +90,9 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
                 onValueChange={(value) => setVolume(value[0])}
                 max={100}
                 step={1}
-                className="w-24"
+                className="w-16 md:w-24"
               />
-              <span className="text-white/70 text-sm font-light w-8 text-right">
+              <span className="text-white/70 text-xs md:text-sm font-light w-8 text-right">
                 {volume}%
               </span>
             </motion.div>
@@ -106,13 +106,13 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
             onMouseEnter={() => setShowControls(true)}
             onMouseLeave={() => setShowControls(false)}
             size="icon"
-            className={`h-14 w-14 rounded-full transition-all duration-300 ${
+            className={`h-12 w-12 md:h-14 md:w-14 rounded-full transition-all duration-300 ${
               isPlaying
                 ? "bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 shadow-breath"
                 : "bg-white/10 hover:bg-white/20 text-white/70 border-2 border-white/20"
             }`}
           >
-            <Music className={`h-6 w-6 ${isPlaying ? "animate-pulse" : ""}`} />
+            <Music className={`h-5 w-5 md:h-6 md:w-6 ${isPlaying ? "animate-pulse" : ""}`} />
           </Button>
         </motion.div>
 
