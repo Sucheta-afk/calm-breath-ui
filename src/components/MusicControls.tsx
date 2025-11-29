@@ -11,7 +11,7 @@ interface MusicControlsProps {
 export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
-  const [showControls, setShowControls] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -21,7 +21,6 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
   }, [volume]);
 
   useEffect(() => {
-    // Auto-start music when breathing starts
     if (isBreathingActive && isPlaying && audioRef.current) {
       audioRef.current.play().catch(console.error);
     }
@@ -33,51 +32,66 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
+      setPanelOpen(false);
     } else {
       audioRef.current.play().catch(console.error);
       setIsPlaying(true);
+      setPanelOpen(true);
     }
   };
 
   const toggleMute = () => {
-    if (volume > 0) {
-      setVolume(0);
-    } else {
-      setVolume(50);
-    }
+    setVolume(volume > 0 ? 0 : 50);
   };
 
   return (
     <>
-      {/* Hidden audio element */}
-      <audio
-        ref={audioRef}
-        loop
-        preload="auto"
-        src="/music/calm-ambient.mp3"
-      />
+      <audio ref={audioRef} loop preload="auto" src="/music/calm-ambient.mp3" />
 
-      {/* Music Controls */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="fixed top-6 right-6 md:top-8 md:right-8 flex flex-col items-end gap-3 z-50"
-      >
-        {/* Volume Slider */}
+      <div className="fixed top-6 right-6 md:top-8 md:right-8 z-50 flex flex-col items-end">
+
+        {/* Music Button */}
+        <Button
+          onClick={() => {
+            toggleMusic();
+            setPanelOpen(!panelOpen);
+          }}
+          size="icon"
+          className={`h-12 w-12 rounded-full transition-all duration-300
+            ${isPlaying 
+              ? "bg-white/20 text-white border border-white/40 shadow-sm backdrop-blur-md"
+              : "bg-white/10 text-white/70 border border-white/20 backdrop-blur-sm"
+            }`}
+        >
+          <Music className="h-5 w-5" />
+        </Button>
+
+        {!isPlaying && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-white/50 text-xs mt-2 font-light"
+          >
+            Add Music
+          </motion.p>
+        )}
+
+        {/* STATIC (NO Y MOVEMENT) PANEL */}
         <AnimatePresence>
-          {showControls && isPlaying && (
+          {panelOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              className="flex items-center gap-2 md:gap-3 bg-white/10 backdrop-blur-md rounded-full px-3 md:px-4 py-2 md:py-3 border border-white/20"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="mt-3 bg-white/10 backdrop-blur-md rounded-xl px-4 py-3 
+                         border border-white/20 shadow-sm flex items-center gap-3"
             >
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleMute}
-                className="h-8 w-8 text-white hover:bg-white/20"
+                className="h-8 w-8 text-white hover:bg-white/20 rounded-full"
               >
                 {volume > 0 ? (
                   <Volume2 className="h-4 w-4" />
@@ -85,48 +99,22 @@ export const MusicControls = ({ isBreathingActive }: MusicControlsProps) => {
                   <VolumeX className="h-4 w-4" />
                 )}
               </Button>
+
               <Slider
                 value={[volume]}
-                onValueChange={(value) => setVolume(value[0])}
+                onValueChange={(v) => setVolume(v[0])}
                 max={100}
                 step={1}
-                className="w-16 md:w-24"
+                className="w-24"
               />
-              <span className="text-white/70 text-xs md:text-sm font-light w-8 text-right">
+
+              <span className="text-white/70 text-xs w-8 text-right">
                 {volume}%
               </span>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Main Music Button */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button
-            onClick={toggleMusic}
-            onMouseEnter={() => setShowControls(true)}
-            onMouseLeave={() => setShowControls(false)}
-            size="icon"
-            className={`h-12 w-12 md:h-14 md:w-14 rounded-full transition-all duration-300 ${
-              isPlaying
-                ? "bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 shadow-breath"
-                : "bg-white/10 hover:bg-white/20 text-white/70 border-2 border-white/20"
-            }`}
-          >
-            <Music className={`h-5 w-5 md:h-6 md:w-6 ${isPlaying ? "animate-pulse" : ""}`} />
-          </Button>
-        </motion.div>
-
-        {/* Label */}
-        {!isPlaying && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-white/50 text-xs font-light"
-          >
-            Add Music
-          </motion.p>
-        )}
-      </motion.div>
+      </div>
     </>
   );
 };

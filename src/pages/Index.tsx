@@ -10,13 +10,13 @@ const Index = () => {
   const [isActive, setIsActive] = useState(false);
   const [phase, setPhase] = useState<BreathPhase>("ready");
   const [selectedPalette, setSelectedPalette] = useState<PaletteType>("teal");
-  
+
   const currentPalette = palettes[selectedPalette];
 
   const phaseConfig = {
     ready: { duration: 0, label: "Press Start", scale: 1 },
-    inhale: { duration: 4000, label: "Inhale", scale: 1.5 },
-    "hold-in": { duration: 2000, label: "Hold", scale: 1.5 },
+    inhale: { duration: 4000, label: "Inhale", scale: 1.45 },
+    "hold-in": { duration: 2000, label: "Hold", scale: 1.45 },
     exhale: { duration: 4000, label: "Exhale", scale: 1 },
     "hold-out": { duration: 2000, label: "Hold", scale: 1 },
   };
@@ -43,134 +43,105 @@ const Index = () => {
     return () => clearTimeout(timeoutId);
   }, [isActive]);
 
-  const handleStart = () => {
-    setIsActive(true);
-  };
-
-  const handleStop = () => {
-    setIsActive(false);
-    setPhase("ready");
-  };
-
   return (
-    <main 
+    <main
       className="relative min-h-screen w-full overflow-hidden flex items-center justify-center transition-all duration-1000"
       style={{ background: currentPalette.gradient }}
     >
-      {/* Ambient glow background */}
-      <div 
-        className="absolute inset-0 opacity-60 animate-pulse"
+      <div
+        className="absolute inset-0 opacity-50 animate-pulse"
         style={{ background: currentPalette.glow }}
       />
-      
-      <div className="relative z-10 flex flex-col items-center justify-center gap-8 md:gap-12 px-4 max-w-4xl mx-auto pt-20 md:pt-0">
-        {/* App Title */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center w-full"
-        >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-wide mb-2">
+
+      {/* FULL SCREEN WRAPPER WITH MAX-HEIGHT CONSTRAINT */}
+      <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-xl"
+           style={{ maxHeight: "92vh" }}>
+
+        {/* Title */}
+        <div>
+          <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide mb-1">
             CalmBreath
           </h1>
-          <p className="text-base md:text-lg lg:text-xl text-white/80 font-light">
-            Guided Breathing Exercise
+          <p className="text-sm md:text-base text-white/80 font-light">
+            Guided Breathing
           </p>
-        </motion.div>
+        </div>
 
-        {/* Breathing Circle Container */}
-        <div className="relative flex items-center justify-center">
-          {/* Outer glow ring */}
+
+
+        {/* Circle with safe spacing */}
+        <div className="relative flex items-center justify-center mt-2 mb-4 md:mb-6 pt-6 pb-6">
+
+          {/* Outer glow */}
           <motion.div
             animate={{
               scale: phaseConfig[phase].scale,
-              opacity: isActive ? [0.4, 0.6, 0.4] : 0.4,
+              opacity: isActive ? [0.35, 0.55, 0.35] : 0.35,
             }}
             transition={{
               duration: phaseConfig[phase].duration / 1000,
               ease: "easeInOut",
-              opacity: {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              },
+              opacity: { duration: 2, repeat: Infinity },
             }}
-            className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full bg-white/10 backdrop-blur-sm"
+            className="absolute 
+                       w-36 h-36 sm:w-44 sm:h-44 md:w-56 md:h-56 
+                       rounded-full bg-white/10 backdrop-blur-sm"
           />
 
-          {/* Main breathing circle */}
+          {/* Main circle */}
           <motion.div
-            animate={{
-              scale: phaseConfig[phase].scale,
-            }}
+            animate={{ scale: phaseConfig[phase].scale }}
             transition={{
               duration: phaseConfig[phase].duration / 1000,
               ease: "easeInOut",
             }}
-            className="relative w-48 h-48 md:w-60 md:h-60 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center"
+            className="relative 
+                       w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48
+                       rounded-full bg-white/20 backdrop-blur-md 
+                       flex items-center justify-center"
             style={{ boxShadow: currentPalette.shadow }}
           >
-            {/* Inner highlight */}
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-white/30 to-transparent" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-white/25 to-transparent" />
           </motion.div>
         </div>
 
         {/* Phase Label */}
-        <motion.div
-          key={phase}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-          className="text-center"
-        >
-          <p className="text-3xl md:text-4xl font-light text-white tracking-wider">
-            {phaseConfig[phase].label}
-          </p>
-        </motion.div>
+        <p className="text-lg sm:text-xl md:text-2xl font-light text-white tracking-wide mb-2 md:mb-4">
+          {phaseConfig[phase].label}
+        </p>
 
-        {/* Control Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          {!isActive ? (
-            <Button
-              onClick={handleStart}
-              size="lg"
-              className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 backdrop-blur-md px-12 py-6 text-lg font-light tracking-wide rounded-full transition-all duration-300 hover:scale-105 hover:shadow-breath"
-            >
-              Start
-            </Button>
-          ) : (
-            <Button
-              onClick={handleStop}
-              variant="ghost"
-              size="lg"
-              className="text-white/70 hover:text-white hover:bg-white/10 px-8 py-4 text-base font-light tracking-wide rounded-full transition-all duration-300"
-            >
-              Stop
-            </Button>
-          )}
-        </motion.div>
+        {/* Buttons */}
+        {!isActive ? (
+          <Button
+            onClick={() => setIsActive(true)}
+            className="bg-white/20 hover:bg-white/30 text-white 
+                       border border-white/30 backdrop-blur-md 
+                       px-8 py-2 text-sm sm:text-base rounded-full mb-2"
+          >
+            Start
+          </Button>
+        ) : (
+          <Button
+            onClick={() => { setIsActive(false); setPhase("ready"); }}
+            variant="ghost"
+            className="text-white/70 hover:text-white hover:bg-white/10 
+                       px-6 py-2 text-sm sm:text-base rounded-full mb-2"
+          >
+            Stop
+          </Button>
+        )}
 
-        {/* Color Palette Selector */}
-        <ColorPalette selected={selectedPalette} onSelect={setSelectedPalette} />
+        {/* Palette selector */}
+        <div className="scale-90 md:scale-100 mb-1">
+          <ColorPalette selected={selectedPalette} onSelect={setSelectedPalette} />
+        </div>
 
-        {/* Instruction text */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-white/60 text-sm md:text-base font-light text-center max-w-md"
-        >
-          Follow the expanding and contracting circle to guide your breathing rhythm
-        </motion.p>
+        {/* Footer text */}
+        <p className="text-white/70 text-xs md:text-sm font-light leading-relaxed mb-2">
+          Follow the circle to guide your breathing rhythm.
+        </p>
       </div>
 
-      {/* Music Controls */}
       <MusicControls isBreathingActive={isActive} />
     </main>
   );
