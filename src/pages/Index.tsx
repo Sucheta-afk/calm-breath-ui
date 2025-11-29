@@ -63,18 +63,18 @@ const Index = () => {
         style={{ background: currentPalette.glow }}
       />
       
-      <div className="relative z-10 flex flex-col items-center justify-center gap-12 px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center gap-8 md:gap-12 px-4 max-w-4xl mx-auto pt-20 md:pt-0">
         {/* App Title */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center"
+          className="text-center w-full"
         >
-          <h1 className="text-5xl md:text-6xl font-light text-white tracking-wide mb-2">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-wide mb-2">
             CalmBreath
           </h1>
-          <p className="text-lg md:text-xl text-white/80 font-light">
+          <p className="text-base md:text-lg lg:text-xl text-white/80 font-light">
             Guided Breathing Exercise
           </p>
         </motion.div>
