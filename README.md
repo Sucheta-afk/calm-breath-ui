@@ -1,73 +1,40 @@
-# Welcome to your Lovable project
+# CalmBreath – Guided Breathing Exercise Web App 🧘‍♀️
 
-## Project info
+A simple, calming web-app to help you practice guided breathing — perfect for stress relief, mindfulness breaks, or a quick mental reset.
 
-**URL**: https://lovable.dev/projects/fca17978-710b-4c2d-8c1e-2f8bede3e5cb
+## ⭐ Highlights
 
-## How can I edit this code?
+- **Easy to use** — Just open the app and start breathing. No login or configuration needed.  
+- **Focused UI / UX** — Minimal, distraction-free design for a calming experience.  
+- **Platform-agnostic** — Works on mobile and desktop browsers.  
+- **Free & open** — Open-source friendly; feel free to use or fork it as you like.  
 
-There are several ways of editing your application.
+## 📄 What is it & Why
 
-**Use Lovable**
+Stress, anxiety, or long working hours can often cause shallow, ineffective breathing. CalmBreath aims to provide a simple, browser-based tool to help you slow down, regulate your breath, and reset — whether you're coding, studying, or taking a break.  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fca17978-710b-4c2d-8c1e-2f8bede3e5cb) and start prompting.
+It’s especially useful if you want a no-fuss, accessible breathing guide without installing native apps or dealing with permissions.
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🧰 Built With / Tech Stack
 
-**Use your preferred IDE**
+- HTML, CSS, JavaScript (vanilla or a framework — adjust depending on your stack)  
+- Responsive UI (desktop + mobile)  
+- Hosted/deployed on Vercel (via the given link)  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+*(Feel free to list frameworks/libraries exactly as used — e.g. React, Vue.js, Tailwind CSS, etc.)*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Getting Started / Usage
 
-Follow these steps:
+> The live version is already deployed — you can simply open the link.  
+> For local development or to contribute — follow these steps:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Clone the repo
+git clone https://github.com/Sucheta-afk/calm-breath-ui.git
+cd calm-breath-ui
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies (if any)
+npm install       # or yarn install, depending on your setup
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/fca17978-710b-4c2d-8c1e-2f8bede3e5cb) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+# Run locally
+npm start         # or the relevant dev/start command
